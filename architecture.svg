@@ -1,0 +1,31 @@
+<svg width="900" height="500" xmlns="http://www.w3.org/2000/svg" font-family="Arial">
+
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Boxes -->
+  <rect x="60" y="200" width="120" height="60" fill="#0073bb" rx="10"/>
+  <text x="120" y="235" fill="white" text-anchor="middle">User</text>
+
+  <rect x="220" y="200" width="160" height="60" fill="#ff9900" rx="10"/>
+  <text x="300" y="235" fill="white" text-anchor="middle">CloudFront</text>
+
+  <rect x="440" y="200" width="160" height="60" fill="#3b48cc" rx="10"/>
+  <text x="520" y="235" fill="white" text-anchor="middle">S3 (Private)</text>
+
+  <rect x="440" y="320" width="160" height="60" fill="#ff4f8b" rx="10"/>
+  <text x="520" y="355" fill="white" text-anchor="middle">API Gateway</text>
+
+  <rect x="660" y="320" width="160" height="60" fill="#f7c948" rx="10"/>
+  <text x="740" y="355" fill="black" text-anchor="middle">Lambda</text>
+
+  <rect x="660" y="200" width="160" height="60" fill="#2ca02c" rx="10"/>
+  <text x="740" y="235" fill="white" text-anchor="middle">DynamoDB</text>
+
+  <!-- Arrows -->
+  <line x1="180" y1="230" x2="220" y2="230" stroke="black" stroke-width="2"/>
+  <line x1="380" y1="230" x2="440" y2="230" stroke="black" stroke-width="2"/>
+  <line x1="520" y1="260" x2="520" y2="320" stroke="black" stroke-width="2"/>
+  <line x1="600" y1="350" x2="660" y2="350" stroke="black" stroke-width="2"/>
+  <line x1="740" y1="320" x2="740" y2="260" stroke="black" stroke-width="2"/>
+
+</svg>

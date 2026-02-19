@@ -1,95 +1,84 @@
-## Serverless Cloud Resume Platform
+# Serverless Cloud Resume Platform
 
-Production-grade AWS serverless web application demonstrating secure cloud architecture, API design, IAM debugging, and CI/CD automation.
+## 🌐 Live Demo
 
-### Overview
+**👉 https://d2dbta6uof49eo.cloudfront.net/**
 
-This project implements a fully serverless resume platform hosted on AWS.  
-It follows cloud-native best practices including:
+---
 
-- **Private static hosting**
-- **Secure content delivery**
-- **RESTful API design**
-- **Atomic database operations**
-- **IAM least-privilege access**
-- **CI/CD automation**
+## 📌 Overview
+
+This project implements a fully serverless resume platform hosted on AWS.
+
+It demonstrates:
+
+- **Secure static hosting**
+- **Serverless REST API design**
+- **Real-time visitor counter**
+- **IAM least-privilege configuration**
+- **Debugging of 403 & permission boundary issues**
+- **CI/CD automation using GitHub Actions**
 
 The system is designed to be **scalable**, **secure**, and **cost-efficient**.
 
-### Architecture
+---
 
-![Architecture](.cursor/projects/c-Users-souvi-OneDrive-Desktop-cloudresume-challeneg/assets/c__Users_souvi_AppData_Roaming_Cursor_User_workspaceStorage_7db904ceaea593121275f1af2fb75322_images_ChatGPT_Image_Feb_17__2026__11_11_55_PM-ad55e5ae-b5ac-4c0a-887d-c0025e6080d4.png)
+## 🏗️ Architecture
 
-#### High-Level Flow
+![Architecture Diagram](architecture.svg)
 
-User  
-  ↓  
-CloudFront (CDN)  
-  ↓  
-S3 (Private Bucket + OAC)  
-  ↓  
-Frontend (HTML/CSS/JS)  
-  ↓  
-API Gateway (HTTP API)  
-  ↓  
-AWS Lambda (Python)  
-  ↓  
-DynamoDB (Visitor Counter)
+**High-Level Flow**
 
-#### Architecture Breakdown
+```
+User → CloudFront → Private S3
+                      ↓
+                Frontend (JS)
+                      ↓
+                API Gateway
+                      ↓
+                   Lambda
+                      ↓
+                  DynamoDB
+```
 
-1. **CloudFront**
-   - Acts as CDN layer
-   - Serves static content globally
-   - Secured using Origin Access Control (OAC)
+---
 
-2. **S3 (Private)**
-   - Static website hosting
-   - Public access completely blocked
-   - Only accessible via CloudFront
+## 🔐 Security Implementation
 
-3. **API Gateway (HTTP API)**
-   - Exposes REST endpoint
-   - Handles CORS configuration
-   - Routes requests to Lambda
-
-4. **AWS Lambda (Python)**
-   - Backend logic implementation
-   - Handles visitor counter updates
-   - Returns JSON response
-
-5. **DynamoDB**
-   - NoSQL database
-   - Atomic counter updates using `UpdateExpression`
-   - Prevents race conditions
-
-### Security Implementation
-
-- **Private S3 bucket** (Block Public Access enabled)
+- **S3 Block Public Access** enabled
 - **CloudFront Origin Access Control (OAC)**
 - **IAM least-privilege policies**
 - **Lambda execution role isolation**
-- **API CORS properly configured**
-- **Region alignment** across all AWS services
+- **CORS properly configured**
+- **Region alignment** across all services
 
-### Technical Challenges Solved
+---
 
-- **IAM permission boundary issues**
-  - Diagnosed restrictive permission boundaries blocking Lambda execution and fixed trust relationships.
+## 🧠 Technical Challenges Solved
 
-- **403 AccessDenied errors**
-  - Resolved multi-layer authorization issues across:
-    - S3 bucket policy
-    - CloudFront distribution
-    - API Gateway invoke permissions
+### 🔹 IAM Permission Boundary Issues
 
-- **DynamoDB Decimal serialization**
-  - Handled Python `Decimal` types to ensure proper JSON serialization in API responses.
+Diagnosed restrictive IAM boundaries that prevented Lambda execution and resolved trust policy conflicts.
 
-- **Atomic counter updates**
-  - Used DynamoDB atomic increment operations to avoid race conditions during concurrent requests.
+### 🔹 403 AccessDenied Errors
 
-### Tech Stack
+Resolved authorization issues across:
+
+- S3 bucket policy
+- CloudFront distribution
+- API Gateway permissions
+
+### 🔹 DynamoDB Decimal Serialization
+
+Handled Python `Decimal` types to ensure valid JSON API responses.
+
+### 🔹 Atomic Counter Updates
+
+Implemented DynamoDB `UpdateExpression` to prevent race conditions during concurrent requests.
+
+---
+
+## ⚙️ Tech Stack
 
 - **AWS S3**
 - **AWS CloudFront**
@@ -97,113 +86,96 @@ DynamoDB (Visitor Counter)
 - **AWS Lambda (Python)**
 - **AWS DynamoDB**
 - **AWS IAM**
-- **GitHub Actions**
+- **GitHub Actions (CI/CD)**
 - **Python**
 
-### CI/CD Pipeline
+---
 
-Automated deployment using GitHub Actions:
+## 🚀 CI/CD Pipeline
+
+Automated deployment workflow:
 
 - **Triggered on push to `main`**
-- **Syncs static assets to S3**
-- **Automatically invalidates CloudFront cache**
+- **Syncs frontend files to S3**
+- **Packages and updates Lambda**
+- **Invalidates CloudFront cache**
+- **Zero manual console deployment**
 
-This enables **zero-manual**, production-ready deployments.
+**Workflow location:** `.github/workflows/deploy.yml`
 
-### Features
+---
 
-- **Fully serverless architecture**
-- **Secure static hosting**
-- **Real-time visitor tracking**
-- **Automated CI/CD deployment**
-- **Cost-efficient infrastructure**
-- **Cloud-native scalable design**
+## 🛠️ Local Development Setup
 
-### How to Deploy Locally
+### 1️⃣ Clone Repository
 
-This section explains how to run and test components locally before deploying to AWS.
+```bash
+git clone https://github.com/xouvik09/cloud-resume-challenge.git
+cd cloud-resume-challenge
+```
 
-1. **Clone repository**
+### 2️⃣ Configure AWS Credentials
 
-   ```bash
-   git clone https://github.com/xouvik09/cloud-resume-challenge.git
-   cd cloud-resume-challenge
-   ```
+```bash
+aws configure
+```
 
-2. **Configure AWS credentials**
+Enter:
 
-   Make sure AWS CLI is installed:
+- **AWS Access Key ID**
+- **AWS Secret Access Key**
+- **Region** (must match deployment region)
+- **Default output format:** `json`
 
-   ```bash
-   aws configure
-   ```
+⚠️ **Never commit credentials to the repository.**
 
-   Enter:
+### 3️⃣ Test Lambda Locally
 
-   - **AWS Access Key ID**
-   - **AWS Secret Access Key**
-   - **Region** (must match project region)
-   - **Default output format** (json)
+```bash
+cd backend
+pip install -r requirements.txt
+python lambda_function.py
+```
 
-   ⚠️ Never commit credentials to the repository.
+(Optional: Use AWS SAM or Docker for advanced local testing.)
 
-3. **Test Lambda locally (optional)**
+### 4️⃣ Deploy via CI/CD
 
-   If your Lambda function is inside a `backend` folder:
+Push to `main` branch:
 
-   ```bash
-   cd backend
-   pip install -r requirements.txt
-   python lambda_function.py
-   ```
+```bash
+git add .
+git commit -m "Deploy update"
+git push origin main
+```
 
-   For advanced local testing, you can use:
+GitHub Actions handles deployment automatically.
 
-   - **AWS SAM**
-   - **Docker-based Lambda simulation**
+---
 
-4. **Deploy to AWS**
-
-   If using manual setup:
-
-   - Create DynamoDB table
-   - Create Lambda function
-   - Configure API Gateway
-   - Attach IAM role
-   - Configure CloudFront
-   - Link S3 origin using OAC
-
-   If using Infrastructure as Code (recommended future improvement):
-
-   ```bash
-   aws cloudformation deploy \
-     --template-file template.yaml \
-     --stack-name cloud-resume \
-     --capabilities CAPABILITY_IAM
-   ```
-
-### What This Project Demonstrates
-
-This project validates practical knowledge of:
+## 📈 What This Project Demonstrates
 
 - **Serverless architecture design**
-- **IAM debugging and permission boundaries**
+- **IAM debugging capability**
 - **Secure cloud deployment**
 - **REST API integration**
 - **DynamoDB atomic operations**
-- **CI/CD automation**
+- **Full-stack CI/CD automation**
 - **Production-level troubleshooting**
 
-### Future Improvements
+---
+
+## 🔮 Future Improvements
 
 - **Infrastructure as Code** (Terraform / CloudFormation)
-- **CloudWatch logging dashboards**
+- **CloudWatch dashboards & monitoring**
 - **AWS WAF integration**
-- **Custom domain with ACM SSL certificate**
-- **Unit testing for Lambda**
-- **Monitoring and alerting**
+- **Custom domain with ACM SSL**
+- **Automated testing for Lambda**
 
-### Author
+---
+
+## 👨‍💻 Author
 
 **Souvik Ghosh**  
 Computer Science Undergraduate (2021–2025)  
