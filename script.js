@@ -7,10 +7,11 @@
         const navLinks = document.getElementById('navLinks');
         const contactForm = document.getElementById('contactForm');
         const visitorCountEl = document.getElementById('visitor-count');
+        const counterEl = document.getElementById('counter');
 
-        // Visitor counter
-        if (visitorCountEl) {
-            fetch('https://r42jub0svh.execute-api.eu-north-1.amazonaws.com/count')
+        // Visitor counter (supports #visitor-count and #counter)
+        if (visitorCountEl || counterEl) {
+            fetch('https://p6y94ce2rh.execute-api.eu-north-1.amazonaws.com/count')
                 .then(function (response) {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -18,11 +19,22 @@
                     return response.json();
                 })
                 .then(function (data) {
-                    visitorCountEl.textContent = data.count;
+                    var value = typeof data === 'number' ? data : data.count;
+                    if (visitorCountEl) {
+                        visitorCountEl.textContent = value;
+                    }
+                    if (counterEl) {
+                        counterEl.innerText = value;
+                    }
                 })
                 .catch(function (error) {
                     console.error('Error fetching visitor count:', error);
-                    visitorCountEl.textContent = 'Error';
+                    if (visitorCountEl) {
+                        visitorCountEl.textContent = 'Error';
+                    }
+                    if (counterEl) {
+                        counterEl.innerText = 'Error';
+                    }
                 });
         }
 
