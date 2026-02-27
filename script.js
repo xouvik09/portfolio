@@ -11,7 +11,7 @@
 
         // Visitor counter (supports #visitor-count and #counter)
         if (visitorCountEl || counterEl) {
-            fetch('https://p6y94ce2rh.execute-api.eu-north-1.amazonaws.com/count')
+            fetch('https://vfjsrdkot4.execute-api.eu-north-1.amazonaws.com/count')
                 .then(function (response) {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
